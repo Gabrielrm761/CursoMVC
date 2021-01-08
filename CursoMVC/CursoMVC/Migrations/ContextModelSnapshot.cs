@@ -32,6 +32,45 @@ namespace CursoMVC.Migrations
 
                     b.ToTable("Categorias");
                 });
+
+            modelBuilder.Entity("CursoMVC.Models.Produto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int>("CategoriaId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Descricao")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Quantidade")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoriaId");
+
+                    b.ToTable("Produtos");
+                });
+
+            modelBuilder.Entity("CursoMVC.Models.Produto", b =>
+                {
+                    b.HasOne("CursoMVC.Models.Categoria", "Categoria")
+                        .WithMany("Produtos")
+                        .HasForeignKey("CategoriaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Categoria");
+                });
+
+            modelBuilder.Entity("CursoMVC.Models.Categoria", b =>
+                {
+                    b.Navigation("Produtos");
+                });
 #pragma warning restore 612, 618
         }
     }
